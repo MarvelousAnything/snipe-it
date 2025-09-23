@@ -6,7 +6,6 @@
     'help_text' => null,
     'label_style' => null,
     'label_class' => 'col-md-3 col-sm-12 col-xs-12',
-    'div_style' => null,
     'input_div_class' => 'col-md-8 col-sm-12',
     'type' => 'checkbox',
     'item' => null,
@@ -14,23 +13,27 @@
     'error_offset_class' => 'col-md-7 col-md-offset-3',
     'info_tooltip_text' => null,
     'value_text' => null,
+    'checkbox_value' => null,
 ])
 
 <div {{ $attributes->merge(['class' => 'form-group']) }}>
 
     <x-form-label
             :$label
-            :for="$name"
             :style="$label_style ?? null"
             class="{{ $label_class }}"
     />
 
-    <div {{ $attributes->merge(['class' => $input_div_class]) }} {{ ($div_style) ? $attributes->merge(['style' => $div_style]):'' }}>
-        <label class="form-control">
-            <input type="checkbox" name="{{ $name }}" aria-label="{{ $name }}" @checked(old($name, $item->$name))>
-            {{ $value_text }}
+    <div {{ $attributes->merge(['class' => $input_div_class]) }}>
+
+        <label class="form-control{{ $disabled ? ' form-control--disabled' : ''  }}">
+            <input type="checkbox" name="{{ $name }}" aria-label="{{ $name }}" value="{{ $checkbox_value }}" @checked(old($name, $item->$name)) {!! $disabled ? 'class="disabled" disabled' : ''  !!}>
+            {{ $value_text ?? $label }}
         </label>
+
     </div>
+
+
 
 
     @if ($info_tooltip_text)

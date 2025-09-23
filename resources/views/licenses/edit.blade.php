@@ -90,7 +90,7 @@
             :$item
             :$errors
             name="reassignable"
-            disabled="true"
+            checkbox_value="1"
             :value_text="trans('general.yes')"
     />
 
@@ -172,7 +172,9 @@
             :label="trans('admin/licenses/form.maintained')"
             :$item
             :$errors
+            :value_text="trans('general.yes')"
             name="maintained"
+            checkbox_value="1"
     />
 
 
