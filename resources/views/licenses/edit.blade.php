@@ -84,19 +84,15 @@
             type="email"
     />
 
-<!-- Reassignable -->
-<div class="form-group {{ $errors->has('reassignable') ? ' has-error' : '' }}">
-    <div class="col-md-3 control-label">
-        <strong>{{ trans('admin/licenses/form.reassignable') }}</strong>
-    </div>
-    <div class="col-md-7">
-        <label class="form-control">
-            <input type="checkbox" name="reassignable" value="1" aria-label="reassignable" @checked(old('reassignable', $item->id ? $item->reassignable : '1'))>
-        {{ trans('general.yes') }}
-        </label>
-    </div>
-</div>
-
+    <!-- Reassignable -->
+    <x-form-row-checkbox
+            :label="trans('admin/licenses/form.reassignable')"
+            :$item
+            :$errors
+            name="reassignable"
+            disabled="true"
+            :value_text="trans('general.yes')"
+    />
 
 @include ('partials.forms.edit.supplier-select', ['translated_name' => trans('general.supplier'), 'fieldname' => 'supplier_id'])
 
@@ -171,16 +167,14 @@
 
 @include ('partials.forms.edit.depreciation')
 
-<!-- Maintained -->
-<div class="form-group {{ $errors->has('maintained') ? ' has-error' : '' }}">
-    <div class="col-md-3 control-label"><strong>{{ trans('admin/licenses/form.maintained') }}</strong></div>
-    <div class="col-md-7">
-        <label class="form-control">
-            <input type="checkbox" name="maintained" value="1" aria-label="maintained" @checked(old('maintained', $item->maintained))>
-        {{ trans('general.yes') }}
-        </label>
-    </div>
-</div>
+    <!-- Maintained -->
+    <x-form-row-checkbox
+            :label="trans('admin/licenses/form.maintained')"
+            :$item
+            :$errors
+            name="maintained"
+    />
+
 
     <!-- Notes -->
     <x-form-row
