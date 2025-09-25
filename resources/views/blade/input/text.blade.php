@@ -1,7 +1,6 @@
 @props([
-    'item' => null,
-    'field_name' => null,
     'input_style' => null,
+    'input_group_addon' => null,
     'required' => false,
 ])
 <!-- input-text blade component -->
@@ -9,3 +8,7 @@
     {{ $attributes->merge(['class' => 'form-control', 'style' => $input_style]) }}
     @required($required)
 />
+
+@if ($input_group_addon)
+    <span class="input-group-addon">{{ $input_group_addon }}</span>
+@endif

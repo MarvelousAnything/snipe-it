@@ -79,10 +79,11 @@
     />
 
     <!-- Reassignable -->
-    <x-form-row-checkbox
+    <x-form-row
             :label="trans('admin/licenses/form.reassignable')"
             :$item
             name="reassignable"
+            type="checkbox"
             checkbox_value="1"
             :value_text="trans('general.yes')"
     />
@@ -155,11 +156,12 @@
 @include ('partials.forms.edit.depreciation')
 
     <!-- Maintained -->
-    <x-form-row-checkbox
+    <x-form-row
             :label="trans('admin/licenses/form.maintained')"
             :$item
             :value_text="trans('general.yes')"
             name="maintained"
+            type="checkbox"
             checkbox_value="1"
     />
 

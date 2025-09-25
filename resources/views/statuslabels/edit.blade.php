@@ -67,20 +67,22 @@
     />
 
 <!-- Show in Nav -->
-    <x-form-row-checkbox
+    <x-form-row
             :label="trans('admin/statuslabels/table.show_in_nav')"
             :$item
             :value_text="trans('general.yes')"
             name="show_in_nav"
+            type="checkbox"
             checkbox_value="1"
     />
 
 <!-- Set as Default -->
-    <x-form-row-checkbox
+    <x-form-row
             :$item
             :value_text="trans('general.yes')"
             name="default_label"
             checkbox_value="1"
+            type="checkbox"
             help_text="{!! trans('admin/statuslabels/table.default_label_help') !!}"
     />
 
