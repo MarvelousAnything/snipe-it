@@ -57,7 +57,7 @@ class SendExpirationAlerts extends Command
 
             if ($assets->count() > 0) {
 
-                Mail::to($recipients)->send(new ExpiringAssetsMail($assets, $alert_interval));
+                Mail::to($recipients)->locale($settings->use_locale)->send(new ExpiringAssetsMail($assets, $alert_interval));
 
                 $this->table(
                     [
@@ -91,7 +91,7 @@ class SendExpirationAlerts extends Command
                 ->orderBy('termination_date', 'ASC')
                 ->get();
             if ($licenses->count() > 0) {
-                Mail::to($recipients)->send(new ExpiringLicenseMail($licenses, $alert_interval));
+                Mail::to($recipients)->locale($settings->use_locale)->send(new ExpiringLicenseMail($licenses, $alert_interval));
 
                 $this->table(
                     [

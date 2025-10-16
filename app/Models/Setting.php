@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
@@ -118,6 +119,36 @@ class Setting extends Model
             // Catch the error if the tables dont exit
             return false;
         }
+    }
+
+    /**
+     * Get the locale to use in some places in the app where we don't
+     * have access to the user context (i.e. email notifications where the alert address
+     * might not be an actual user object or it's being run via cli.)
+     *
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     */
+    protected function useLocale(): Attribute
+    {
+
+        return Attribute:: make(
+            get: function(mixed $value, array $attributes) {
+
+                // Use current user's language
+                if ((request()->user()) && (request()->user()->locale)) {
+                    return request()->user()->locale;
+
+                // Fall back to app settings
+                } elseif ($attributes['locale'] != '') {
+                    return $attributes['locale'];
+                }
+
+                // Fall back to env
+                return config('app.locale');
+
+            }
+        );
+
     }
 
     /**
