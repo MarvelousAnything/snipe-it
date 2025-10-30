@@ -19,73 +19,62 @@
 
 {{-- Page content --}}
 @section('content')
+
 <div class="row">
-  <x-box
-          :$item
-          header_icon="maintenances"
-  >
 
 
+  <!-- Inititate form component -->
+  <x-form :$item update_route="maintenances.update" create_route="maintenances.store">
 
-        <!-- Name -->
-        <x-form-row
-                :label="trans('general.name')"
-                :$item
-                name="name"
-        />
+      <!-- Start box component -->
+      <x-box :$item header_icon="maintenances">
 
-        <!-- This is a new maintenance -->
-        @if (!$item->id)
-
-
-          @include ('partials.forms.edit.asset-select', [
-            'translated_name' => trans('general.assets'),
-            'fieldname' => 'selected_assets[]',
-            'multiple' => true,
-            'required' => true,
-            'select_id' => 'assigned_assets_select',
-            'asset_selector_div_id' => 'assets_for_maintenance_div',
-            'asset_ids' => $item->id ? $item->asset()->pluck('id')->toArray() : old('selected_assets'),
-            'asset_id' => $item->id ? $item->asset()->pluck('id')->toArray() : null
-          ])
-        @else
-
+        <!-- This is an existing maintenance -->
+        @if ($item->id)
 
           @if ($item->asset)
-            <x-form-row
-                    :label="trans('general.asset')"
-                    :$item
-                    name="asset"
-                    type="static"
-                    :static_value="$item->asset->display_name"
-            />
+            <x-form-row :label="trans('general.asset')" name="asset">
+                {{ $item->asset->display_name }}
+            </x-form-row>
 
-            @if ($item->asset->company)
-              <x-form-row
-                      :label="trans('general.company')"
-                      :$item
-                      name="company"
-                      type="static"
-                      :static_value="$item->asset->company->name"
-              />
-            @endif
+              @if ($item->asset->company)
+                  <x-form-row :label="trans('general.company')" name="company">
+                      {{ $item->asset->company->display_name }}
+                  </x-form-row>
+
+              @endif
 
 
-            @if ($item->asset->location)
-              <x-form-row
-                      :label="trans('general.location')"
-                      :$item
-                      name="location"
-                      type="static"
-                      :static_value="$item->asset->location"
-              />
-            @endif
+              @if ($item->asset->location)
+                <x-form-row :label="trans('general.location')" name="location">
+                  {{ $item->asset->location->display_name }}
+                </x-form-row>
+              @endif
           @endif
 
         @endif
 
+          <!-- Name -->
+          <x-form-row
+                  :label="trans('general.name')"
+                  :$item
+                  name="name"
+          />
 
-
+         @if (!$item->id)
+             <x-form-row
+                        :$item
+                        :data_placeholder="trans('general.select_asset')"
+                        :label="trans('general.assets')"
+                        :selected="$item->id ? $item->asset()->pluck('id')->toArray() : old('selected_assets')"
+                        data_endpoint="hardware"
+                        input_class="js-data-ajax select2"
+                        name="selected_assets[]"
+                        required="true"
+                        type="select2-ajax"
+                        multiple="true"
+                />
+         @endif
 
 
         <x-form-row
@@ -132,7 +121,18 @@
                 placeholder="https://example.com"
         />
 
-        @include ('partials.forms.edit.supplier-select', ['translated_name' => trans('general.supplier'), 'fieldname' => 'supplier_id'])
+          <x-form-row
+                  :$item
+                  :data_placeholder="trans('general.select_supplier')"
+                  :label="trans('general.supplier')"
+                  :selected="$item->id ? $item->supplier()->pluck('id')->toArray() : old('suppliers')"
+                  data_endpoint="suppliers"
+                  input_div_class="col-md-7"
+                  input_class="js-data-ajax select2"
+                  name="supplier_id"
+                  type="select2-ajax"
+                  show_create_new="supplier"
+          />
 
 
         <!-- Warranty -->
@@ -147,7 +147,6 @@
 
 
         <!-- Asset Maintenance Cost -->
-        <!-- Purchase Cost -->
         <x-form-row
                 :label="trans('admin/maintenances/form.cost')"
                 :$item
@@ -176,6 +175,10 @@
         />
 
 
+        <!-- End box component -->
   </x-box>
+    <!-- Start form component -->
+</x-form>
+
 </div>
 @stop

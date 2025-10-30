@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Blade;
 
 /**
  * This service provider handles setting the observers on models
@@ -42,6 +43,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(UrlGenerator $url)
     {
+
+
+
         /**
          * This is a workaround for proxies/reverse proxies that don't always pass the proper headers.
          *
@@ -76,6 +80,9 @@ class AppServiceProvider extends ServiceProvider
         Consumable::observe(ConsumableObserver::class);
         License::observe(LicenseObserver::class);
         Setting::observe(SettingObserver::class);
+
+        // https://laravel.com/docs/11.x/blade#html-entity-encoding
+        Blade::withoutDoubleEncoding();
     }
 
     /**

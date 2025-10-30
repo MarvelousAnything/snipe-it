@@ -3,5 +3,5 @@
 ])
 
 <p class="form-control-static">
-    {{ $static_value }}
+    {{ $slot ?? $static_value }}
 </p>

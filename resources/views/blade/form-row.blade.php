@@ -1,9 +1,9 @@
 <!-- form-row blade component -->
 @props([
-    'errors_class' => ($errors->has($name) ? ' has-error' : null),
     'help_text' => null,
     'info_tooltip_text' => null,
     'input_div_class' => 'col-md-8',
+    'input_class' => null,
     'input_group_addon' => null,
     'input_group_text' => null,
     'input_icon' => null,
@@ -14,18 +14,25 @@
     'label' => null,
     'min' => null,
     'maxlength' => null,
-    'name' => null,
+    'name' => false,
     'placeholder' => null,
     'rows' => null,
     'static_value' => null,
     'type' => 'text',
+    'data_endpoint' => false,
+    'multiple' => false,
+    'required' => false,
+    'show_create_new' => false,
 ])
 
-<div {{ $attributes->merge(['class' => 'form-group'. $errors_class]) }}>
+<div class="form-group">
+{{-- <div {{ $attributes->merge(['class' => 'form-group '. ($errors->has($name) ? ' has-error' : '')]) }}> --}}
 
     <!-- form label -->
-    @if (isset($label))
+    @if (isset($name) && $label)
         <x-form-label  :for="$name" class="{{ $label_class ?? 'col-md-3' }}">{{ $label }}</x-form-label>
+    @else
+        <div class="{{ $label_class ?? 'col-md-3' }}">{{ $label }}</div>
     @endif
 
 
@@ -34,28 +41,50 @@
     @endphp
 
         <div class="{{ $input_div_class }}">
-            <x-dynamic-component
-                    :$name
-                    :$type
-                    :aria-label="$name"
-                    :component="'input.'.$blade_type"
-                    :id="$name"
-                    :required="Helper::checkIfRequired($item, $name)"
-                    :value="old($name, $item->{$name})"
-                    :input_icon="$input_icon"
-                    :input_group_addon="$input_group_addon"
-                    :input_group_text="$input_group_text"
-                    :rows="$rows"
-                    :placeholder="$placeholder"
-                    :options="$input_options"
-                    :selected="$input_selected"
-                    :style="$input_style_override"
-                    :maxlength="$maxlength"
-                    :min="$min"
-                    :static_value="$static_value"
 
-            />
+            @if ($slot->isNotEmpty())
+                <p class="form-control-static">
+                    {{ $slot }}
+                </p>
+            @else
+
+                <x-dynamic-component
+                        :$name
+                        :$type
+                        :aria-label="$name"
+                        :class="$input_class"
+                        :component="'input.'.$blade_type"
+                        :data-placeholder="$placeholder"
+                        :data_endpoint="$data_endpoint"
+                        :id="$name"
+                        :input_group_addon="$input_group_addon"
+                        :input_group_text="$input_group_text"
+                        :input_icon="$input_icon"
+                        :maxlength="$maxlength"
+                        :min="$min"
+                        :options="$input_options"
+                        :placeholder="$placeholder"
+                        :required="($required=='true' || Helper::checkIfRequired($item, $name))"
+                        :rows="$rows"
+                        :selected="$input_selected"
+                        :static_value="$static_value"
+                        :style="$input_style_override"
+                        :value="old($name, $item->{$name})"
+                        :multiple="$multiple"
+                />
+
+            @endif
+
         </div>
+
+    @if ($show_create_new)
+        <div class="col-md-1 col-sm-1 text-left">
+            @can('create', '\App\Models\\'.ucwords($show_create_new).'::class')
+                <a href='{{ route('modal.show', class_basename($show_create_new)) }}' data-toggle="modal"  data-target="#createModal" data-select='supplier_select' class="btn btn-sm btn-primary">{{ trans('button.new') }}</a>
+            @endcan
+        </div>
+    @endif
+
 
     @if ($info_tooltip_text)
         <!-- Info Tooltip -->
@@ -84,6 +113,7 @@
             </p>
         </div>
     @endif
+
 
 
 
