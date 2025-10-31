@@ -96,15 +96,18 @@
 
          @if (!$item->id)
 
+          <!-- Assets (multiple select for new maintenance) -->
           <x-form-row>
                   <x-form-label>{{ trans('general.assets') }}</x-form-label>
                   <x-form-input>
                       <x-input.select2-ajax
+                          :item="$item->id ? $item->asset()->pluck('id')->toArray() : old('selected_assets')"
+                          item_model="\App\Models\Asset"
                           name="selected_assets[]"
-                          :value="$item->name"
                           required="true"
                           multiple="true"
                           data_endpoint="hardware"
+                          :selected="$item->id ? $item->asset()->pluck('id')->toArray() : old('selected_assets')"
                           :data_placeholder="trans('general.select_asset')"
                       />
                   </x-form-input>
@@ -175,13 +178,14 @@
         <!-- Supplier -->
           <x-form-row>
 
-              {{ $item->supplier->id }}
                   <x-form-label>{{ trans('general.supplier') }}</x-form-label>
 
                   <x-form-input>
                       <x-input.select2-ajax
+                              item="$item->supplier"
+                              item_model="\App\Models\Supplier"
                               name="supplier_id"
-                              :selected="old('supplier_id', ($item->supplier) ? $item->supplier_id : '')"
+                              :selected="old('supplier_id', ($item->supplier) ? $item->supplier->id : '')"
                               data_endpoint="suppliers"
                               :data_placeholder="trans('general.select_supplier')"
                       />
