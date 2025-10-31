@@ -1181,7 +1181,10 @@ dir="{{ Helper::determineLanguageDirection() }}">
                 highlight: function(inputElement) {
 
                     // We have to go two levels up if it's an input group
-                    if ($(inputElement).parent().hasClass('input-group')) {
+                    if ($(inputElement).hasClass('select2') || $(inputElement).hasClass('js-data-ajax')) {
+                        $(inputElement).parent().parent().addClass('has-error');
+
+                    } else  if ($(inputElement).parent().hasClass('input-group')) {
                         $(inputElement).parent().parent().parent().addClass('has-error');
                     } else {
                         $(inputElement).parent().addClass('has-error');
