@@ -15,6 +15,7 @@
         @if($forLivewire) data-livewire-component="{{ $this->getId() }}" @endif
         data-endpoint="{{ $data_endpoint }}"
         data-placeholder="{{ $data_placeholder }}"
+        name="{{ $name }}"
 >
     @if ($item && $selected)
 

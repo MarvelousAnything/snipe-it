@@ -17,6 +17,7 @@
 
     <input
             type="text"
+            name="{{ $name }}"
             placeholder="{{ trans('general.select_date') }}"
             value="{{ $value }}" maxlength="10"
             {{ $attributes->merge(['class' => 'form-control']) }}
