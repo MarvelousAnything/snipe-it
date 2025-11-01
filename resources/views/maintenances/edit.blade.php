@@ -11,19 +11,13 @@
 @stop
 
 
-@section('header_right')
-<a href="{{ URL::previous() }}" class="btn btn-primary pull-right">
-  {{ trans('general.back') }}</a>
-@stop
-
-
 {{-- Page content --}}
 @section('content')
 
 <div class="row">
 
 
-  <!-- Inititate form component -->
+  <!-- Initiate form component -->
   <x-form :$item update_route="maintenances.update" create_route="maintenances.store">
 
       <!-- Start box component -->

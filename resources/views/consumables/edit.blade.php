@@ -18,11 +18,15 @@
 @include ('partials.forms.edit.company-select', ['translated_name' => trans('general.company'), 'fieldname' => 'company_id'])
 
 <!-- Name -->
-<x-form-row
-        :label="trans('general.name')"
-        :$item
-        name="name"
-/>
+<x-form-row name="name">
+    <x-form-label>{{ trans('general.name') }}</x-form-label>
+    <x-form-input>
+        <x-input.text
+                required="true"
+                :value="old('name', $item->name)"
+        />
+    </x-form-input>
+</x-form-row>
 
 @include ('partials.forms.edit.category-select', ['translated_name' => trans('general.category'), 'fieldname' => 'category_id', 'required' => 'true', 'category_type' => 'consumable'])
 @include ('partials.forms.edit.supplier-select', ['translated_name' => trans('general.supplier'), 'fieldname' => 'supplier_id'])
@@ -30,80 +34,96 @@
 @include ('partials.forms.edit.location-select', ['translated_name' => trans('general.location'), 'fieldname' => 'location_id'])
 
 <!-- Model Number -->
-<x-form-row
-        :label="trans('general.model_no')"
-        :$item
-        name="model_number"
-/>
+<x-form-row name="model_number">
+    <x-form-label>{{ trans('general.model_no') }}</x-form-label>
+    <x-form-input>
+        <x-input.text :value="old('model_number', $item->model_number)"
+        />
+    </x-form-input>
+</x-form-row>
 
-@include ('partials.forms.edit.item_number')
+<!-- Item Number -->
+<x-form-row name="item_no">
+    <x-form-label>{{ trans('admin/consumables/general.item_no') }}</x-form-label>
+    <x-form-input>
+        <x-input.text :value="old('item_no', $item->item_no)" />
+    </x-form-input>
+</x-form-row>
+
 
 <!-- Order Number -->
-<x-form-row
-        :label="trans('general.order_number')"
-        :$item
-        name="order_number"
-/>
-
+<x-form-row name="order_number">
+    <x-form-label>{{ trans('general.order_number') }}</x-form-label>
+    <x-form-input>
+        <x-input.text :value="old('order_number', $item->order_number)" />
+    </x-form-input>
+</x-form-row>
 
 <!--- Purchase Date -->
-<x-form-row
-        :label="trans('general.purchase_date')"
-        :$item
-        name="purchase_date"
-        type="datepicker"
-        input_div_class="col-md-5"
-        input_icon="email"
-        input_group_addon="left"
-/>
-
+<x-form-row name="purchase_date">
+    <x-form-label>{{ trans('general.purchase_date') }}</x-form-label>
+    <x-form-input>
+        <x-input.datepicker :value="old('purchase_date', $item->purchase_date_for_datepicker)" />
+    </x-form-input>
+</x-form-row>
 
 <!-- Purchase Cost -->
-<x-form-row
-        :label="trans('general.unit_cost')"
-        :$item
-        name="purchase_cost"
-        type="number"
-        input_div_class="col-md-5"
-        input_min="0"
-        input_group_text="{{ $snipeSettings->default_currency }}"
-        input_group_addon="left"
-        maxlength="25"
-        input_max="99999999999999999.000"
-        input_min="0.00"
-        input_step="0.001"
-/>
+<x-form-row name="purchase_cost">
+    <x-form-label>{{ trans('general.unit_cost') }}</x-form-label>
+    <x-form-input>
+        <x-input.text
+                type="number"
+                :input_group_text="$snipeSettings->default_currency"
+                :value="old('purchase_cost', $item->purchase_cost)"
+                input_group_addon="left"
+                input_max="99999999999999999.000"
+                input_min="0"
+                input_min="0.00"
+                input_step="0.001"
+                maxlength="25"
+        />
+    </x-form-input>
+</x-form-row>
 
 <!-- QTY -->
-<x-form-row
-        :label="trans('general.quantity')"
-        :$item
-        name="qty"
-        type="number"
-        input_div_class="col-md-4"
-        input_min="1"
-/>
+<x-form-row name="qty">
+    <x-form-label>{{ trans('general.quantity') }}</x-form-label>
+    <x-form-input>
+        <x-input.text
+                type="number"
+                :value="old('qty', $item->qty)"
+                  input_min="1"
+                required="true"
+        />
+    </x-form-input>
+</x-form-row>
 
 <!-- Minimum QTY -->
-<x-form-row
-        :label="trans('general.min_amt')"
-        :$item
-        name="min_amt"
-        type="number"
-        input_div_class="col-md-4 col-xs-9"
-        info_tooltip_text="{{ trans('general.min_amt_help') }}"
-        input_min="0"
+<x-form-row name="min_amt">
+    <x-form-label>{{ trans('general.min_amt') }}</x-form-label>
+    <x-form-input>
+        <x-input.text
+                type="number"
+                :value="old('min_amt', $item->min_amt)"
+                input_min="0"
+        />
+    </x-form-input>
+    <x-form-inline-tooltip>
+        {{ trans('general.min_amt_help') }}
+    </x-form-inline-tooltip>
+</x-form-row>
 
-/>
 
 <!-- Notes -->
-<x-form-row
-        :label="trans('general.notes')"
-        :$item
-        name="notes"
-        type="textarea"
-        placeholder="{{ trans('general.placeholders.notes') }}"
-/>
+<x-form-row name="notes">
+    <x-form-label>{{ trans('general.notes') }}</x-form-label>
+    <x-form-input>
+        <x-input.textarea
+                :value="old('notes', $item->notes)"
+                placeholder="{{ trans('general.placeholders.notes') }}"
+        />
+    </x-form-input>
+</x-form-row>
 
 @include ('partials.forms.edit.image-upload', ['image_path' => app('consumables_upload_path')])
 

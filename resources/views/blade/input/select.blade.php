@@ -7,6 +7,7 @@
     'selected' => null,
     'includeEmpty' => false,
     'forLivewire' => false,
+    'name' => null
 ])
 
 <select

@@ -20,6 +20,13 @@ class SnipeModel extends Model
         $this->attributes['purchase_date'] = $value;
     }
 
+    protected function purchaseDateForDatepicker(): Attribute
+    {
+        return Attribute:: make(
+            get: fn(mixed $value, array $attributes) => $attributes['purchase_date']  ? Carbon::parse($attributes['purchase_date'])->format('Y-m-d') : null,
+        );
+    }
+
 
     protected function purchaseDateFormatted(): Attribute
     {

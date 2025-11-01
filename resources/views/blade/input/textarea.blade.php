@@ -2,6 +2,7 @@
 @props([
     'value' => null,
     'rows' => 5,
+    'name' => null,
 ])
 
 <textarea
