@@ -23,7 +23,7 @@
 <!-- QTY -->
 <x-form-row name="qty">
     <x-form-label>{{ trans('general.quantity') }}</x-form-label>
-    <x-form-input class="col-md-5">
+    <x-form-input>
         <x-input.text
                 type="number"
                 :value="old('qty', $item->qty)"
@@ -36,7 +36,7 @@
 <!-- Minimum QTY -->
 <x-form-row name="min_amt">
     <x-form-label>{{ trans('general.min_amt') }}</x-form-label>
-    <x-form-input class="col-md-5">
+    <x-form-input>
         <x-input.text
                 type="number"
                 :value="old('min_amt', $item->min_amt)"
