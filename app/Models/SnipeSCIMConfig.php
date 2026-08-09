@@ -723,7 +723,13 @@ class SnipeSCIMConfig
                     eloquent('title', 'jobtitle'),
                     eloquent('preferredLanguage', 'locale'),
                     (new Collection('groups'))->withSubAttributes(
-                        eloquent('value', 'id'),
+                        (new class ('value', 'id') extends Eloquent 
+                        {
+                            protected function doRead(&$object, $attributes = [])
+                            {
+                                return (string) $object->id;
+                            }
+                        }),
                         (new class('$ref') extends Eloquent
                         {
                             protected function doRead(&$object, $attributes = [])
@@ -758,7 +764,7 @@ class SnipeSCIMConfig
                             }
 
                             return [
-                                'value' => $object->manager->id, // TODO - ID's aren't unique like they're supposed to be :/
+                                'value' => (string) $object->manager->id, // TODO - ID's aren't unique like they're supposed to be :/
                                 '$ref' => route('scim.resource', ['resourceType' => 'User', 'resourceObject' => $object->manager->id]),
                                 'displayName' => $object->manager->display_name,
                             ];
@@ -869,7 +875,13 @@ class SnipeSCIMConfig
                         $fail('The name has already been taken.');
                     }),
                     (new SnipeMutableCollection('members'))->withSubAttributes(
-                        eloquent('value', 'id')->ensure('required'),
+                        (new class ('value', 'id') extends Eloquent 
+                        {
+                            protected function doRead(&$object, $attributes = [])
+                            {
+                                return (string) $object->id;
+                            }
+                        }),
                         (new class('$ref') extends Eloquent
                         {
                             protected function doRead(&$object, $attributes = [])
